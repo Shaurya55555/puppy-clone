@@ -10,7 +10,6 @@ export default function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const { favs } = useFavorites();
-  useEffect(() => setOpen(false), [path]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -61,7 +60,7 @@ export default function Header() {
           </div>
           <nav className="mt-6 flex flex-col" aria-label="Mobile">
             {NAV.map((n, i) => (
-              <Link key={n.href} href={n.href} className="ml" style={{ animationDelay: `${i * 60}ms` }}>
+              <Link key={n.href} href={n.href} className="ml" style={{ animationDelay: `${i * 60}ms` }} onClick={() => setOpen(false)}>
                 {n.label}
               </Link>
             ))}

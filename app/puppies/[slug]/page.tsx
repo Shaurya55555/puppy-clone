@@ -7,7 +7,6 @@ import FavButton from "@/components/FavButton";
 import Gallery from "@/components/Gallery";
 import { puppies } from "@/lib/data";
 import { available, cap, title } from "@/lib/puppy";
-import { WA } from "@/lib/site";
 
 export function generateStaticParams() {
   return puppies.map((p) => ({ slug: p.slug }));

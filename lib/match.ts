@@ -92,6 +92,8 @@ export function rank(answers: Answers, pool: Puppy[]): Match[] {
   const wantEnergy = { low: 2, medium: 3, high: 5 }[answers.activity];
   const wantGroom = { minimal: 2, regular: 3, love: 5 }[answers.grooming];
   const wantKids = { none: 1, older: 3, young: 5 }[answers.kids];
+  // If nobody in the pool can satisfy a timing wish (e.g. all pups are imports), do not punish everyone for it.
+  const timingMatters = answers.timing === "either" ? false : pool.some((p) => (answers.timing === "now" ? p.origin === "local" : p.origin === "imported"));
 
   return pool
     .map((puppy) => {
@@ -124,7 +126,7 @@ export function rank(answers: Answers, pool: Puppy[]): Match[] {
 
       const timing =
         answers.timing === "either" ? 1 : answers.timing === "now" ? (puppy.origin === "local" ? 1 : 0.35) : puppy.origin === "imported" ? 1 : 0.7;
-      add(2, timing);
+      if (timingMatters) add(2, timing);
       if (answers.timing === "now" && puppy.origin === "local") reasons.push("Can go home the same day");
       if (answers.timing === "wait" && puppy.origin === "imported") reasons.push("Imported for you, a rare teacup line");
 
