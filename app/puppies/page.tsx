@@ -4,11 +4,13 @@ import PuppiesBrowser from "@/components/PuppiesBrowser";
 import PuppyCard from "@/components/PuppyCard";
 import Image from "next/image";
 import Link from "next/link";
-import { available, gone, title } from "@/lib/puppy";
+import { available, breedKey, gone, title } from "@/lib/puppy";
 
 export const metadata: Metadata = { title: "Available puppies — TeddyPups U.A.E." };
 
-export default function PuppiesPage() {
+export default async function PuppiesPage({ searchParams }: { searchParams: Promise<{ breed?: string; origin?: string }> }) {
+  const { breed, origin } = await searchParams;
+  const initial = available.filter((p) => (!breed || breedKey(p) === breed) && (!origin || p.origin === origin));
   return (
     <section className="section">
       <div className="wrap">
@@ -20,7 +22,7 @@ export default function PuppiesPage() {
         <Suspense
           fallback={
             <div className="grid-pups">
-              {available.map((p) => (
+              {initial.map((p) => (
                 <PuppyCard key={p.slug} p={p} />
               ))}
             </div>
