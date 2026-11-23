@@ -5,6 +5,7 @@ export const EMAIL = "hello@teddypups.ae";
 export const NAV = [
   { href: "/", label: "Home" },
   { href: "/puppies", label: "Puppies" },
+  { href: "/match", label: "Find my pup" },
   { href: "/happy-families", label: "Happy families" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/faq", label: "FAQ" },

@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { NAV, WA } from "@/lib/site";
+import { useFavorites } from "@/lib/favorites";
 
 export default function Header() {
   const path = usePathname();
   const [open, setOpen] = useState(false);
+  const { favs } = useFavorites();
   useEffect(() => setOpen(false), [path]);
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -31,6 +33,10 @@ export default function Header() {
           ))}
         </nav>
         <div className="hdr-end">
+          <Link href="/favourites" className="hdr-fav" aria-label={`Favourites (${favs.length})`}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden><path d="M12 21s-7.5-4.6-9.6-9.2C1 8.7 2.8 5 6.3 5c2 0 3.5 1.1 4.2 2.4h3C14.2 6.1 15.7 5 17.7 5c3.5 0 5.3 3.7 3.9 6.8C19.5 16.4 12 21 12 21Z" fill={favs.length ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinejoin="round" /></svg>
+            {favs.length > 0 && <b>{favs.length}</b>}
+          </Link>
           <a href={WA} className="btn btn-wa hdr-wa" target="_blank" rel="noopener noreferrer">
             WhatsApp us
           </a>

@@ -94,6 +94,21 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section">
+        <div className="wrap">
+          <div className="panel grid items-center gap-6 md:grid-cols-[1fr_auto]" style={{ background: "var(--color-sky)" }}>
+            <div>
+              <p className="eyebrow" style={{ color: "var(--color-sky-deep)" }}>new · sniff out your match</p>
+              <h2 className="text-3xl md:text-5xl">Not sure which pup fits your life?</h2>
+              <p className="mt-2 max-w-xl text-cocoa-soft">
+                Answer five quick questions about your home and routine, and we&apos;ll rank the available puppies that suit you best.
+              </p>
+            </div>
+            <Link href="/match" className="btn btn-primary">Find my pup</Link>
+          </div>
+        </div>
+      </section>
+
       <section className="section" style={{ background: "var(--color-honey-soft)" }}>
         <div className="wrap">
           <h2 className="text-4xl md:text-5xl">Two ways to meet your puppy</h2>

@@ -1,30 +1,40 @@
 "use client";
 import { useState } from "react";
+import { sendEnquiry } from "@/lib/enquiry";
 import { puppies } from "@/lib/data";
 import { cap, title } from "@/lib/puppy";
 
 export default function ContactForm() {
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState<"idle" | "sending" | "sent">("idle");
+  const [wa, setWa] = useState<string | undefined>();
   const [err, setErr] = useState<string | null>(null);
   const options = puppies.filter((p) => !p.gone);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    if (f.get("website")) return;
-    if (!String(f.get("name") || "").trim() || !String(f.get("phone") || "").trim()) {
-      setErr("Please add your name and a phone or WhatsApp number.");
-      return;
-    }
+    const form = e.currentTarget;
+    setState("sending");
     setErr(null);
-    setSent(true);
+    const r = await sendEnquiry(form);
+    if (r.ok) {
+      setWa(r.wa);
+      setState("sent");
+    } else {
+      setState("idle");
+      setErr(r.error ?? (r.errors ? Object.values(r.errors).join(" ") : "Something went wrong."));
+    }
   }
 
-  if (sent)
+  if (state === "sent")
     return (
       <div className="letter text-center" role="status">
         <p className="font-display text-3xl">Letter posted! 💌</p>
         <p className="mt-2">Thank you. Our team will get back to you promptly.</p>
+        {wa && (
+          <a href={wa} className="btn btn-wa mt-3" target="_blank" rel="noopener noreferrer">
+            Continue on WhatsApp
+          </a>
+        )}
       </div>
     );
 
@@ -63,8 +73,8 @@ export default function ContactForm() {
           {err}
         </p>
       )}
-      <button type="submit" className="btn btn-primary mt-3">
-        Post my letter
+      <button type="submit" className="btn btn-primary mt-3" disabled={state === "sending"}>
+        {state === "sending" ? "Posting…" : "Post my letter"}
       </button>
     </form>
   );

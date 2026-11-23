@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import EnquiryForm from "@/components/EnquiryForm";
+import FavButton from "@/components/FavButton";
 import Gallery from "@/components/Gallery";
 import { puppies } from "@/lib/data";
 import { available, cap, title } from "@/lib/puppy";
@@ -54,11 +55,11 @@ export default async function PuppyPage({ params }: { params: Promise<{ slug: st
         </nav>
 
         <div className="grid items-start gap-10 lg:grid-cols-2">
-          <div>
+          <div className="min-w-0">
             <p className="eyebrow mb-2">hello, it&apos;s me</p>
             <Gallery images={p.images} alt={`${name}, ${p.gender} ${p.breed} puppy`} />
           </div>
-          <div>
+          <div className="min-w-0">
             <span className="badge" style={{ position: "static", display: "inline-block", background: p.gone ? "var(--color-toffee-deep)" : undefined }}>
               {p.gone ? "Gone home ♥" : "Available"}
             </span>
@@ -73,6 +74,7 @@ export default async function PuppyPage({ params }: { params: Promise<{ slug: st
             <div className="mt-6 flex flex-wrap gap-3">
               <a href={waLink} className="btn btn-wa" target="_blank" rel="noopener noreferrer">Ask about {name} on WhatsApp</a>
               {!p.gone && <a href="#enquire" className="btn btn-ghost">Send an enquiry</a>}
+              {!p.gone && <FavButton slug={p.slug} name={name} className="fav-inline" />}
             </div>
           </div>
         </div>
@@ -110,7 +112,7 @@ export default async function PuppyPage({ params }: { params: Promise<{ slug: st
             <p className="eyebrow">dear TeddyPups…</p>
             <h2 className="mb-2 text-3xl md:text-4xl">Ask about {name}</h2>
             <p className="mb-5 text-cocoa-soft">Leave your details and our team will get back to you promptly, or message us on WhatsApp for the quickest reply.</p>
-            <EnquiryForm puppyName={name} breed={p.breed} />
+            <EnquiryForm puppyName={name} breed={p.breed} slug={p.slug} />
           </section>
         )}
 
