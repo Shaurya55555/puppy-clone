@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import PuppiesBrowser from "@/components/PuppiesBrowser";
+import PuppyCard from "@/components/PuppyCard";
 import Image from "next/image";
 import Link from "next/link";
 import { available, gone, title } from "@/lib/puppy";
@@ -16,7 +17,15 @@ export default function PuppiesPage() {
         <p className="mt-3 mb-8 max-w-2xl text-cocoa-soft">
           Every listing shows real photos of the actual puppy. Open a profile to see them all, then ask us about them on WhatsApp.
         </p>
-        <Suspense fallback={<p>Loading puppies…</p>}>
+        <Suspense
+          fallback={
+            <div className="grid-pups">
+              {available.map((p) => (
+                <PuppyCard key={p.slug} p={p} />
+              ))}
+            </div>
+          }
+        >
           <PuppiesBrowser puppies={available} />
         </Suspense>
         <div className="mt-16">
