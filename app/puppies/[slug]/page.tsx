@@ -105,15 +105,13 @@ export default async function PuppyPage({ params }: { params: Promise<{ slug: st
           </ol>
         </section>
 
-        {!p.gone && (
-          <section id={`enquire-${p.slug}`} className="mt-16 max-w-2xl scroll-mt-28">
-            <span id="enquire" className="block scroll-mt-28" />
-            <p className="eyebrow">dear TeddyPups…</p>
-            <h2 className="mb-2 text-3xl md:text-4xl">Ask about {name}</h2>
-            <p className="mb-5 text-cocoa-soft">Leave your details and our team will get back to you promptly, or message us on WhatsApp for the quickest reply.</p>
-            <EnquiryForm puppyName={name} breed={p.breed} slug={p.slug} />
-          </section>
-        )}
+        <section id={`enquire-${p.slug}`} className="mt-16 max-w-2xl scroll-mt-28">
+          <span id="enquire" className="block scroll-mt-28" />
+          <p className="eyebrow">dear TeddyPups…</p>
+          <h2 className="mb-2 text-3xl md:text-4xl">{p.gone ? "Looking for a puppy like this?" : `Ask about ${name}`}</h2>
+          <p className="mb-5 text-cocoa-soft">Leave your details and our team will get back to you promptly, or message us on WhatsApp for the quickest reply.</p>
+          <EnquiryForm puppyName={name} breed={p.breed} slug={p.slug} />
+        </section>
 
         {prev && next && (
           <nav className="mt-16 grid gap-4 sm:grid-cols-2" aria-label="More puppies">

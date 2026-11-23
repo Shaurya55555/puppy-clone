@@ -47,6 +47,7 @@ export default function HappyFamilies() {
             </figure>
           ))}
         </div>
+        <p className="hand mt-10 text-center text-xl">every one of them was a Teddy Pup once</p>
       </div>
     </section>
   );
